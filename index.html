@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Continuation-Passing Style: or, how to travel through time!</title>
+    <title>Monoids</title>
 
     <meta name="author" content="Michael Arntzenius">
 
@@ -46,189 +46,158 @@
       <div class="slides">
 
         <section>
-          <h1>Continuation-<br>Passing<br>Style<br></h1>
-          <h3>Or, <i>how to travel through time!</i></h3>
-          <p>Michael Arntzenius (rntz)</p>
-          <a href="http://www.rntz.net/">http://www.rntz.net</a>
+          <h1>Monoids</h1>
+          <!-- <p>Michael Arntzenius (rntz)</p>
+          <a href="http://www.rntz.net/">http://www.rntz.net</a> -->
 
           <aside class="notes">
-            CPS exciting b/c connected to so many things;<br> "microcosm of CS".
+            <p> First in series of talks about my project at Hacker School. </p>
+            <p> Language with extensible syntax, and strangely enough it all starts with monoids. </p>
+            <p> What is a monoid? </p>
           </aside>
         </section>
 
         <section>
-          <h2><font style="font-size: 72px;">What is CPS?</font></h2>
-          <ol>
-            <li data-fragment-index="0" class="fragment">
-              <p><em>BORING!</em></p>
-              <p>It's just higher-order functions.</p>
-            </li>
-            <li data-fragment-index="1" class="fragment">
-              <p><em>BIZARRE!</em></p>
-              <p>It's programs playing with their own futures!</p>
-            </li>
-            <li data-fragment-index="2" class="fragment">
-              <p>A manual version of <code>call/cc</code> &mdash;<br>
-                <i>"the mother of all control flow constructs"</i>!
-              </p>
-            </li>
-            <li data-fragment-index="2" class="fragment">
-              <p>Connects classical and constructive logic!</p>
-            </li>
-            <li data-fragment-index="2" class="fragment">
-              <p>Simplifies compiler optimizations &mdash;<br>a functional version of SSA!</p>
-            </li>
-          </ol>
+          <h2>What's a monoid?</h2>
+          <ul><li> <p>A binary operator,</p> </li>
+            <li> <p>associative,</p> </li>
+            <li> <p>with an identity element</p></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Binary operator?</h2>
+          <p> a · b </p>
+          <ul><li> <p> Integer addition, + </p> </li>
+            <li> <p> Set union, ∪ </p> </li>
+            <li> <p> String concatenation, ⧺ </p> </li>
+            <li> <p> Integer maximum </p> </li>
+            <li> <p> Division, / </p> </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Associative?</h2>
+          <p> (a · b) · c = a · (b · c) </p>
+          <ul><li> <p> Integer addition, + </p> </li>
+            <li> <p> Set union, ∪ </p> </li>
+            <li> <p> String concatenation, ⧺ </p> </li>
+            <li> <p> Integer maximum </p> </li>
+            <li> <p><strike> Division, /</strike>
+                <span class="why">&nbsp;(a/b)/c ≠ a/(b/c) </span>
+            </p> </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Identity element?</h2>
+          <p> a · id = id · a = a </p>
+          <ul><li> <p> Integer addition, +, with 0 </p> </li>
+            </p> </li>
+            <li> <p> Set union, ∪, with {}</p> </li>
+            <li> <p> String concatenation, ⧺, with ""</p> </li>
+            <li> <p><strike>Integer maximum </strike> <span class="why">&nbsp; no least integer</span></p> </li>
+            <li> <p><strike> Division, /</strike>
+                <span class="why">&nbsp;(a/b)/c ≠ a/(b/c) </span>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Monoids:</h2>
+          <p>Associative binary operators with identity.</p>
 
           <aside class="notes">
-            <ol><li> BORING. If you can understand HOFs...
-                <li> BIZARRE. Travel through time. How weird is that?
-                <li> Connected to a bunch of other things.
-            </ol>
+            Monoids are so simple they show up everywhere.
           </aside>
         </section>
 
-        <!-- <section>
-         !--   <h2>CPS by example!</h2>
-         !--   <p>CPS is a technique.</p>
-         !--   <p>
-         !--     It's useful for <strong>backtracking search</strong>.
-         !--   </p>
-         !--   <p>For example, <strong>regular expression matching</strong>.
-         !--   </p>
-         !--   <p>{Haskell, Scheme, Python} code at <br>
-         !--     <\!-- TODO: href this -\->
-         !--     <a href="https://github.com/rntz/cps-talk">https://github.com/rntz/cps-talk</a>
-         !--   </p>
-         !-- </section> -->
-
         <section>
-          <h2>The Tiniest Regexp Library!</h2>
-          <pre><code style="font-size: 80%;" data-trim class="haskell">
-data Re = Lit Char | Seq Re Re | Or Re Re | Star Re
-
-match (Lit c) [] k = False
-match (Lit c) (x:xs) k = c == x && k xs
-match (Seq a b) s k = match a s (\rest -> match b rest k)
-match (Or a b) s k = match a s k || match b s k
-match (Star a) s k = match a s (\rest -> match (Star a) rest k) || k s
-
-matches a s = match a s null
-          </code></pre>
-          <p>{Haskell, Python} code at 
-            <a href="https://github.com/rntz/cps-talk">https://github.com/rntz/cps-talk</a>
-          </p>
-
-          <aside class="notes">
-            <p>CPS by example. Backtracking search.</p>
-            <p>New technique in 10min, sucker's game.</p>
-          </aside>
-        </section>
-
-<!--         <section>
- !--           <pre><code data-trim class="haskell">
- !-- data Re
- !--     -- character literals
- !--     = Lit Char
- !--     -- (Seq a b) is concatenation /ab/
- !--     | Seq Re Re
- !--     -- (Or a b) is choice /a|b/
- !--     | Or Re Re
- !--     -- (Star a) is iteration /a*/
- !--     | Star Re
- !--           </code></pre>
- !--         </section> -->
-
-        <section>
-          <!--<h2>Regular Expression Matching</h2>-->
-          <!-- talk about generalizing the problem:
-               finding a prefix & calling your continuation -->
-          <h2>The gist of CPS</h2>
-          <pre><code data-trim class="haskell">
-matches :: Regexp -> String -> Bool
-          </code></pre>
-
-          <pre class="fragment"><code data-trim class="haskell">
-matchBetter :: Regexp -> String -> Maybe String
-          </code></pre>
-
-          <pre class="fragment"><code data-trim class="haskell">
-matchBest :: Regexp -> String -> [String]
-          </code></pre>
-
-          <div class="fragment">
-            <pre><code data-trim class="haskell">
-match :: Regexp -> String -> (String -> Bool) -> Bool
---                           ^ CONTINUATION ^
-            </pre></code>
-
-            <p>Our continuation is <strong>what to do next</strong>:</p>
-            <p><em>match the rest of the string</em>.</p>
-          </div>
-
-          <aside class="notes">
-            <p>Directly writing <code>matches</code>, prefix problem.
-            <p>Generalize to give "maybe suffix"; multiple matches problem.
-            <p>Generalize to give "suffix list"; iterator/lazy problem.
-            <p>There is another way!
-          </aside>
-
-        </section>
-
-        <section>
-          <h1>What's the big deal?</h1>
-        </section>
-
-        <section>
-          <h1>What's the big deal?</h1>
-          <h2>There isn't one.</h2>
-        </section>
-
-        <section>
-          <h1>What if you wrote<br><em>every</em><br> function in CPS?</h1>
-        </section>
-
-        <section>
-          <h3>If every function were CPS...</h3>
-          <p>Every function could manipulate its own future! You could:</p>
+          <h2>More monoids</h2>
           <ul>
-            <li class="fragment" data-fragment-id="0">
-              Continue multiple times!
-              <i>Multiple choice futures!</i></li>
-            <!-- NB: like the list monad, or the "amb" operator -->
+            <li> <p> Matrix multiplication </p></li>
+            <li> <p> Merging sorted lists (merge step in mergesort!) </p></li>
+            <li> <p> Unix commands under <code>|</code>, with <code>cat</code> </p></li>
+            <li> <p> Composing functions of type (A → A), with (λx.x) </p></li>
+            <li> <p> Regular expressions under choice ("|" in (a|b)) </p> </li>
+            <li> <p> CFGs under choice ("|" in A ::= B | C) </p> </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>What are they good for?</h2>
+          <ol>
+            <li><p> Functions for free </p></li>
+            <li><p> Parallelization (map-reduce like) </p></li>
+            <li><p> Starting point for exploring algebraic datastructures </p></li>
+            <li><p> And more... </p></li>
+          </ol>
+        </section>
+
+        <!-- 1. functions for free: mconcat, exponentiation
+             2. reduce, mapreduce, paralellization
+             3. jumping-off point for exploring algebraic structures
+             4. Other things: merging dictionaries, abstract Writer/Logger monad
+          -->
+
+        <section>
+          <h2>Functions for free</h2>
+          Write this:
+          <pre><code data-trim class="haskell">
+instance Monoid String where
+    mappend = (++)       -- ++ is the operator
+    mempty = ""          -- "" is the identity
+          </code></pre>
+          Get this for free!
+          <pre><code data-trim class="haskell">
+mconcat ["monoids", " are ", "great"]
+-- Evaluates to "monoids are great"
+          </code></pre>
+
+          <aside class="notes">
+            <p> Idea: any monoid gives you an n-ary operator for free.<br>
+              Associative: apply to N things w/o worry parentheses<br>
+              If N=0, return the identity.</p>
+            <p> This is exactly what mconcat does. </p>
+          </aside>
+        </section>
+
+        <section>
+          <h1><code>mconcat</code><br> can be parallelized</h1>
+        </section>
+
+        <section>
+          <ul>
+            <li> <p>Split the list in half;</p> </li>
+            <li> <p> send each half to a different processor; </p></li>
+            <li> <p> recurse!</p> </li>
+            <li> <p>Once both halves return, <code>mappend</code> their
+                results together.</p>
             </li>
-            <li class="fragment" data-fragment-id="1">
-              Continue from an earlier function!
-              <i>Early exit! Exceptions!</i>
-            </li>
-            <li class="fragment" data-fragment-id="3">
-              Switch back and forth between continuations!<br>
-            <i>Generators! Coroutines! Threads!</i></li>
           </ul>
 
           <aside class="notes">
-            <ol><li>Backtracking search, regexps, List monad.
-                <li>Stack-jumping, <code>longjmp</code>
-            </ol>
+            <p>(Do whiteboard diagram.)</p>
+            <p>Theoretical speedup: O(n) to O(log n).</p>
           </aside>
         </section>
 
-        <section><h1>Remember <code>call/cc</code>?</h1></section>
-        <!-- call/cc does this automatically for you -->
-
         <section>
-          <h2>Curry-Howard and CPS</h2>
-          <p>If proofs are programs, what does <code>call/cc</code> prove?</p>
-          <p>If CPS transforms programs, what does it do to proofs?</p>
-          <p>What does <i>time travel</i> mean in a proof?</p>
+          <h1><span style="text-transform: none;">MapReduce</span></h1>
+
+          <aside class="notes">
+            <p>MapReduce is a framework (originally from Google)
+              for doing parallel computation on massive datasets.
+            </p>
+            <p> This idea is the core of the "reduce" part of MapReduce.</p>
+            <p> The "map" part is a parallel map. </p>
+            <p> It's not quite that simple (MapReduce makes assumptions about
+            monoid, sorts for you.) </p>
+          </aside>
         </section>
 
-        <aside class="notes">
-          <p> <code>call/cc</code> = Pierce's law ≅ LEM. </p>
-          <p> CPS embeds classical in constructive logic. </p>
-          <p> Time travel is backtracking search over LEM. </p>
-        </aside>
-
+        <section>
+          <h1>That's all folks</h1>
+        </section>
       </div> <!-- slides -->
 
     <script src="lib/js/head.min.js"></script>

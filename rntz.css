@@ -1,3 +1,16 @@
-.reveal div pre {
-    font-size: 20pt;
+.reveal p {
+    font-size: 35pt;
+}
+
+.reveal ul { list-style-type: none; }
+.reveal strike { color: red; }
+.reveal .why { color: #aaa; }
+.reveal .old { color: #aaa; }
+
+.reveal div pre, .reveal div pre>code { font-size: 25pt; }
+.reveal p code { font-size: 33pt; }
+.reveal code { text-transform: none; }
+
+.reveal h1 code {
+    letter-spacing: -0.05em;
 }
