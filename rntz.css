@@ -6,6 +6,7 @@
 .reveal strike { color: red; }
 .reveal .why { color: #aaa; }
 .reveal .old { color: #aaa; }
+.reveal .new { color: #afa; }
 
 .reveal div pre, .reveal div pre>code { font-size: 25pt; }
 .reveal p code { font-size: 33pt; }

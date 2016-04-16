@@ -46,22 +46,25 @@
       <div class="slides">
 
         <section>
-          <h1>Monoids</h1>
-          <!-- <p>Michael Arntzenius (rntz)</p>
-          <a href="http://www.rntz.net/">http://www.rntz.net</a> -->
+          <h1>Simple math leads to powerful programming</h1>
+          <p>Michael Arntzenius</p>
+          <a href="http://www.rntz.net/">http://www.rntz.net</a>
 
           <aside class="notes">
-            <p> First in series of talks about my project at Hacker School. </p>
-            <p> Language with extensible syntax, and strangely enough it all starts with monoids. </p>
-            <p> What is a monoid? </p>
+            <p>Motto: Simple concepts in abstract mathematics lead to powerful
+            programming techniques</p>
+
+            <p>I will show this by example: monoids.</p>
+
+            <p>Explain monoids from the ground up &amp; why they're useful.</p>
           </aside>
         </section>
 
         <section>
-          <h2>What's a monoid?</h2>
-          <ul><li> <p>A binary operator,</p> </li>
-            <li> <p>associative,</p> </li>
-            <li> <p>with an identity element</p></li>
+          <h2>What's a monoid, anyway?</h2>
+          <ul><li> <p>A <em>binary operator</em></p> </li>
+            <li> <p>that's <em>associative</em></p> </li>
+            <li> <p>with an <em>identity element</em>.</p></li>
           </ul>
         </section>
 
@@ -74,6 +77,7 @@
             <li> <p> Integer maximum </p> </li>
             <li> <p> Division, / </p> </li>
           </ul>
+          <aside class="notes"><p>Here is a list of binary operators</p></aside>
         </section>
 
         <section>
@@ -87,13 +91,16 @@
                 <span class="why">&nbsp;(a/b)/c ≠ a/(b/c) </span>
             </p> </li>
           </ul>
+
+          <aside class="notes">
+            <p>It doesn't matter where you put the parentheses!</p>
+          </aside>
         </section>
 
         <section>
           <h2>Identity element?</h2>
           <p> a · id = id · a = a </p>
           <ul><li> <p> Integer addition, +, with 0 </p> </li>
-            </p> </li>
             <li> <p> Set union, ∪, with {}</p> </li>
             <li> <p> String concatenation, ⧺, with ""</p> </li>
             <li> <p><strike>Integer maximum </strike> <span class="why">&nbsp; no least integer</span></p> </li>
@@ -107,7 +114,9 @@
           <p>Associative binary operators with identity.</p>
 
           <aside class="notes">
-            Monoids are so simple they show up everywhere.
+            <p>Monoids are so simple they show up everywhere.</p>
+
+            <p>Which I'll demonstrate by giving some more examples.</p>
           </aside>
         </section>
 
@@ -127,9 +136,9 @@
           <h2>What are they good for?</h2>
           <ol>
             <li><p> Functions for free </p></li>
-            <li><p> Parallelization (map-reduce like) </p></li>
-            <li><p> Starting point for exploring algebraic datastructures </p></li>
-            <li><p> And more... </p></li>
+            <li><p> Parallelization / MapReduce </p></li>
+            <li><p> Starting point for exploring algebra </p></li>
+            <!-- <li><p> And more... </p></li> -->
           </ol>
         </section>
 
@@ -183,16 +192,119 @@ mconcat ["monoids", " are ", "great"]
 
         <section>
           <h1><span style="text-transform: none;">MapReduce</span></h1>
+          <p>The <em>reduce</em> step is a <em>distributed, parallel</em>
+            <tt>mconcat</tt></p>
 
           <aside class="notes">
             <p>MapReduce is a framework (originally from Google)
               for doing parallel computation on massive datasets.
             </p>
-            <p> This idea is the core of the "reduce" part of MapReduce.</p>
             <p> The "map" part is a parallel map. </p>
+            <p> Parallelizing mconcat is the core of the "reduce"
+              part of MapReduce.</p>
             <p> It's not quite that simple (MapReduce makes assumptions about
             monoid, sorts for you.) </p>
           </aside>
+        </section>
+
+        <section>
+          <h2>Monoids:</h2>
+          <ul>
+            <li><p>Associative binary operators with identity</p></li>
+            <li><p>Turn up everywhere</p></li>
+            <li><p>Make the "reduce" in map-reduce go</p></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>Semilattices</h1>
+        </section>
+
+        <section>
+          <h2>What's a semilattice, anyway?</h2>
+          <ul><li> <p>A <em class="old">binary operator</em></p> </li>
+            <li> <p>that's <em class="old">associative</em></p> </li>
+            <li> <p>and <em class="new">commutative</em></p> </li>
+            <li> <p>and <em class="new">idempotent</em></p> </li>
+            <li> <p>with an <em class="old">identity element</em>.</p></li>
+          </ul>
+
+          <aside class="notes">
+            <p>Semilattice is overloaded terminology.</p>
+            <p>Technically: join-semilattices with least elements; I'll
+            just say "semilattice".</p>
+          </aside>
+        </section>
+
+        <section>
+          <h2>What's a semilattice, anyway?</h2>
+          <ul><li> <p>A <em class="old">monoid</em></p> </li>
+            <li> <p>that's <em class="new">commutative</em></p> </li>
+            <li> <p>and <em class="new">idempotent</em>.</p> </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Some monoids</h2>
+          <ul><li> <p> Integer addition, +, with 0 </p> </li>
+            <li> <p> Set union, ∪, with {}</p> </li>
+            <li> <p> String concatenation, ⧺, with ""</p> </li>
+            <li> <p><strike class="old">Integer maximum </strike>
+                <span class="why">&nbsp; no least integer</span></p> </li>
+            <li> <p><strike class="old"> Division, /</strike>
+                <span class="why">&nbsp;(a/b)/c ≠ a/(b/c) </span> </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Commutative?</h2>
+          <p> a · b = b · a </p>
+          <ul><li> <p> Integer addition, +, with 0 </p> </li>
+            <li> <p> Set union, ∪, with {}</p> </li>
+            <li> <p> <strike>String concatenation, ⧺, with ""</strike></p> </li>
+            <li> <p><strike class="old">Integer maximum </strike>
+                <span class="why">&nbsp; no least integer</span></p> </li>
+            <li> <p><strike class="old"> Division, /</strike>
+                <span class="why">&nbsp;(a/b)/c ≠ a/(b/c) </span> </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Idempotent?</h2>
+          <p> a · a = a </p>
+          <ul><li> <p> <strike>Integer addition, +, with 0</strike>
+            <span class="why">&nbsp; 1 + 1 = 2</span></p> </li>
+            <li> <p> Set union, ∪, with {}</p> </li>
+            <li> <p> <strike>String concatenation, ⧺, with ""</strike></p> </li>
+            <li> <p><strike class="old">Integer maximum </strike>
+                <span class="why">&nbsp; no least integer</span></p> </li>
+            <li> <p><strike class="old"> Division, /</strike>
+                <span class="why">&nbsp;(a/b)/c ≠ a/(b/c) </span> </li>
+          </ul>
+        </section>
+
+        <section><h2>More semilattices</h2>
+          <ul>
+            <li><p>Natural numbers under maximum</p></li>
+            <li><p>Booleans under logical "or"</p></li>
+            <li><p>N-bit integers under bitwise "or"</p></li>
+            <li><p>Bloom filters under union</p></li>
+          </ul>
+        </section>
+
+        <section><h2>What are they good for?</h2>
+          <ol>
+            <li><p>Functions for free</p></li>
+            <li><p>Distributed programming <br>
+                (where they are called <strong>CvRDTs</strong>)</p></li>
+          </ol>
+        </section>
+
+        <section><h1>C<span>v</span>RDT?</h1>
+          <p><em>Convergent replicated datatype</em></p>
+          <p>Used to implement <em>eventually-consistent</em> systems</p>
+          <p><strong>Core idea</strong>: Allow changes <em>in any order</em>,
+          possibly <em>multiple times</em>, yet guarantee the same result</p>
         </section>
 
         <section>
